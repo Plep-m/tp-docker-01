@@ -11,6 +11,23 @@ server {
         try_files $uri $uri/ =404;
     }
 
+    location /phpmyadmin {
+        alias /usr/share/phpmyadmin;
+        index index.php;
+
+        location ~ ^/phpmyadmin/(.+\.php)$ {
+            alias /usr/share/phpmyadmin/$1;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+        }
+
+        location ~* ^/phpmyadmin/(.+\.(jpg|jpeg|gif|css|png|js|ico|html|xml|txt))$ {
+            alias /usr/share/phpmyadmin/$1;
+        }
+    }
+
     location ~ \.php$ {
         try_files $uri =404;
         include fastcgi_params;
@@ -22,5 +39,10 @@ server {
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
         expires max;
         log_not_found off;
+    }
+
+    location ~ /(config\.inc\.php|libraries|setup) {
+        deny all;
+        return 404;
     }
 }

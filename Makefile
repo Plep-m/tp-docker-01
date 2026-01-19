@@ -1,6 +1,7 @@
 IMAGE_NAME ?= tp-docker
 CONTAINER_NAME ?= tp-docker
-PORT ?= 80
+HTTP_PORT ?= 80
+MYSQL_PORT ?= 3306
 
 .PHONY: all build run stop logs
 
@@ -16,9 +17,9 @@ stop:
 	@docker rm $(CONTAINER_NAME) 2>/dev/null || true
 
 run:
-	@echo "Running container $(CONTAINER_NAME) on port $(PORT)..."
+	@echo "Running container $(CONTAINER_NAME) on HTTP_PORT $(HTTP_PORT)..."
 	@docker run -d --name $(CONTAINER_NAME) \
-	  -p $(PORT):80 \
+	  -p $(HTTP_PORT):80 -p $(MYSQL_PORT):3306 \
 	  -v $$(pwd)/.env:/.env:ro \
 	  $(IMAGE_NAME)
 

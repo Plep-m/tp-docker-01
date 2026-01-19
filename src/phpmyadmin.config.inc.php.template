@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 $cfg['blowfish_secret'] = '${BLOWFISH_SECRET}';
 
-$cfg['PmaAbsoluteUri'] = 'http://localhost/phpmyadmin/';
-
 $i = 0;
 $i++;
 

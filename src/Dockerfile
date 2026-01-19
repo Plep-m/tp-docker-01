@@ -45,8 +45,10 @@ RUN cd /tmp && \
     rm -rf /tmp/*
 
 COPY test/ /var/www/html/test/
+COPY index.html /var/www/html/index.html
 RUN chown -R www-data:www-data /var/www/html/test && \
-    chmod 644 /var/www/html/test/test.php
+    chmod 644 /var/www/html/test/test.php && \
+    chmod 644 /var/www/html/index.html
 
 COPY nginx.conf.template /etc/nginx/sites-available/default.template
 COPY phpmyadmin.config.inc.php.template /usr/share/phpmyadmin/config.inc.php.template

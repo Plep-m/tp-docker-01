@@ -11,6 +11,17 @@ server {
         try_files $uri $uri/ =404;
     }
 
+    location /wordpress/ {
+        try_files $uri $uri/ /wordpress/index.php?$args;
+        
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_index index.php;
+        }
+    }
+
     location /phpmyadmin {
         alias /usr/share/phpmyadmin;
         index index.php;

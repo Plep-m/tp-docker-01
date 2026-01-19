@@ -22,10 +22,17 @@ RUN echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.l
     && rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp && \
+    wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp && \
+    wget https://getcomposer.org/installer -O - | php && \
+    mv composer.phar /usr/local/bin/composer
+
+RUN cd /tmp && \
     wget https://wordpress.org/latest.tar.gz && \
     tar -xzf latest.tar.gz && \
     mv wordpress /var/www/html/ && \
-    rm -rf /tmp/* /var/www/html/wp-content/* && \
+    rm -rf /tmp/* /var/www/html/wordpress/wp-content/* && \
     chown -R www-data:www-data /var/www/html
 
 RUN cd /tmp && \

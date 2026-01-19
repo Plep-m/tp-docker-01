@@ -8,7 +8,7 @@ all: build stop run
 
 build:
 	@echo "Building image $(IMAGE_NAME)..."
-	@docker build -t $(IMAGE_NAME) .
+	@docker build -t $(IMAGE_NAME) $$(pwd)/src/.
 
 stop:
 	@echo "Stopping container $(CONTAINER_NAME) if running..."

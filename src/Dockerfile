@@ -5,10 +5,25 @@ RUN echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.l
     apt-get update && apt-get install -y \
     nginx \
     php7.3-fpm \
+    php7.3-mysql \
+    php7.3-mbstring \
+    php7.3-xml \
+    php7.3-zip \
+    php7.3-gd \
+    php7.3-curl \
+    php7.3-imagick \
     wget \
     unzip \
     gettext-base \
     && rm -rf /var/lib/apt/lists/*
+
+
+RUN cd /tmp && \
+    wget https://wordpress.org/latest.tar.gz && \
+    tar -xzf latest.tar.gz && \
+    mv wordpress /var/www/html/ && \
+    rm -rf /tmp/* /var/www/html/wp-content/* && \
+    chown -R www-data:www-data /var/www/html
 
 COPY test/ /var/www/html/test/
 RUN chown -R www-data:www-data /var/www/html/test && \

@@ -5,6 +5,12 @@ if [ -f /.env ]; then
     export $(grep -v '^#' /.env | xargs)
 fi
 
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/nginx-selfsigned.key \
+    -out /etc/nginx/ssl/nginx-selfsigned.crt \
+    -subj "/C=FR/ST=PACA/L=Marseille/O=Development/CN=localhost"
+chmod 600 /etc/nginx/ssl/nginx-selfsigned.key
+
 AUTO_INDEX=${AUTO_INDEX:-off}
 DB_HOST=${DB_HOST:-localhost}
 DB_PORT=${DB_PORT:-3306}

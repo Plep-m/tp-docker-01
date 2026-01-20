@@ -50,7 +50,10 @@ RUN chown -R www-data:www-data /var/www/html/test && \
     chmod 644 /var/www/html/test/test.php && \
     chmod 644 /var/www/html/index.html
 
+RUN mkdir -p /etc/nginx/ssl
+
 COPY nginx.conf.template /etc/nginx/sites-available/default.template
+COPY ssl-config.conf /etc/nginx/snippets/ssl-config.conf
 COPY phpmyadmin.config.inc.php.template /usr/share/phpmyadmin/config.inc.php.template
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY init.sql /usr/local/bin/init.sql

@@ -21,4 +21,4 @@ $cfg['DefaultLang'] = 'en';
 $cfg['ServerDefault'] = 1;
 $cfg['VersionCheck'] = false;
 
-$cfg['ForceSSL'] = false;
+$cfg['ForceSSL'] = true;

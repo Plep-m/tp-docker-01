@@ -1,9 +1,25 @@
 server {
     listen 80;
-    server_name localhost;
+    listen [::]:80;
+    server_name _;
+    server_tokens off;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name _;
     root /var/www/html;
     index index.php index.html;
     autoindex ${AUTO_INDEX};
+
+    ssl_certificate /etc/nginx/ssl/nginx-selfsigned.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
+    include snippets/ssl-config.conf;
 
     client_max_body_size 64M;
 
@@ -18,6 +34,7 @@ server {
             include fastcgi_params;
             fastcgi_pass 127.0.0.1:9000;
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param HTTPS on;
             fastcgi_index index.php;
         }
     }
@@ -30,6 +47,7 @@ server {
             alias /usr/share/phpmyadmin/$1;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $request_filename;
+            fastcgi_param HTTPS on;
             fastcgi_pass 127.0.0.1:9000;
             fastcgi_index index.php;
         }
@@ -43,6 +61,7 @@ server {
         try_files $uri =404;
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTPS on;
         fastcgi_pass 127.0.0.1:9000;
         fastcgi_index index.php;
     }
